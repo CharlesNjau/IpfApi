@@ -8,7 +8,7 @@ the inputs are as follow's.
  4.web_site
  5.title
 
-the end point for perfoming POST request is as shown below
+The end point for perfoming POST request is as shown below
 
 URL End point: http://ipf/insertApi/add
 
@@ -30,14 +30,163 @@ Sample of Succesfull post request i.e
   }
 }
 
-ample of an unsuccesfull post request i.e
+Sample of an unsuccesfull post request i.e
 
 {
-
 	    	'Error':'Bad request',
-	        'Status':'400'
-	   
+	        'Status':'400'	   
 }
+
+The end point for perfoming GET request is as shown below
+
+URL End point: http://ipf/fetchApi/CompanyBios
+
+Sample of an unsuccesfull post request i.e
+
+{
+  "List of company bios": [
+    {
+      "company_bio": "Safari LTD "
+    },
+    {
+      "company_bio": "Safari LTD "
+    },
+    {
+      "company_bio": "Safari LTD "
+    },
+    {
+      "company_bio": "Azam"
+    },
+    {
+      "company_bio": "Azam"
+    },
+    {
+      "company_bio": "Atlas Telecom "
+    },
+    {
+      "company_bio": "Atlas Telecom "
+    },
+    {
+      "company_bio": "Atlas Telecom "
+    },
+    {
+      "company_bio": "A Telecom "
+    }
+  ]
+}
+
+URL End point: http://ipf/fetchApi/CompanyBiosByName/{web_site}
+
+{
+  "company_bio": "Safari LTD "
+}
+
+URL End point: http://ipf/fetchApi/AllGetNameAndTitles
+
+[
+  {
+    "title": "Auditor",
+    "first_name": "Dawson",
+    "last_name": "Nyambo"
+  },
+  {
+    "title": "Auditor",
+    "first_name": "Alex",
+    "last_name": "Nyambo"
+  },
+  {
+    "title": "Human Resource",
+    "first_name": "Jackson",
+    "last_name": "Kaniki"
+  },
+  {
+    "title": "Operational Manger",
+    "first_name": "Khalidi",
+    "last_name": "Albani"
+  },
+  {
+    "title": "Operational Manger",
+    "first_name": "Saad",
+    "last_name": "Al turky"
+  },
+  {
+    "title": "Network Engineer",
+    "first_name": "Andrew",
+    "last_name": "Kapinga"
+  },
+  {
+    "title": "Network Engineer",
+    "first_name": "Andrew",
+    "last_name": "Kapinga"
+  },
+  {
+    "title": "Network Engineer",
+    "first_name": "Andrew",
+    "last_name": "Kapinga"
+  },
+  {
+    "title": "Network Engineer",
+    "first_name": "Andrewl",
+    "last_name": "Kapingad"
+  }
+]
+
+URL End point: http://ipf/fetchApi/GetNameAndTitlesByCompnayBio/{company_bio}
+
+{
+  "title": "Operational Manger",
+  "first_name": "Khalidi",
+  "last_name": "Albani"
+}
+
+URL End point: http://ipf/fetchApi/web_sites'
+
+{
+  "List of websites": [
+    {
+      "web_site": "www.tra.co.tz"
+    },
+    {
+      "web_site": "www.tra.co.tz"
+    },
+    {
+      "web_site": "www.tra.co.tz"
+    },
+    {
+      "web_site": "www.azam-group.co.tz"
+    },
+    {
+      "web_site": "www.azam-group.co.tz"
+    },
+    {
+      "web_site": "www.AtlTelco.com"
+    },
+    {
+      "web_site": "www.AtlTelco.com"
+    },
+    {
+      "web_site": "www.AtlTelco.com"
+    },
+    {
+      "web_site": "www.AtlTel.com"
+    }
+  ]
+}
+
+URL End point: http://ipf/fetchApi/web_sitesBycompany_bio/{company_bio}
+
+{
+  "web_site": "www.azam-group.co.tz"
+}
+
+Sample of an unsuccesfull post request i.e
+
+{
+	    	'Error':'Bad request',
+	        'Status':'400'	   
+}
+
+
 
 */
 
@@ -80,7 +229,7 @@ mysqli_close($conn);
  }); 
 
 //Get Company Bio  By Name
-$app->get('/fetchApi/CompanyBiosByName/{web_site}',function(Request $require,Response $response){
+$app->get('/fetchApi/CompanyBiosByWebName/{web_site}',function(Request $require,Response $response){
 $web_site=$require->getAttribute('web_site');
 //echo "COMPANY BIOS BY NAME ROUTE WORKING ".$website."<br>";
 $servername = "localhost";
