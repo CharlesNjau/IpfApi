@@ -1,6 +1,7 @@
 <?php
 /*
-This is APi was wriiten to accept user from a form
+Architechture modular 
+This is APi was writen to accept user from a form
 the inputs are as follow's.
  1.first_name
  2.last_name
@@ -193,7 +194,9 @@ Sample of an unsuccesfull post request i.e
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-require '../vendor/autoload.php';
+require 'C:\xampp\htdocs\Ipf_slim_api\vendor\autoload.php';
+require 'C:\xampp\htdocs\Ipf_slim_api\src\config\db.php';
+
 
 //Get All Company Bios 
 $app = new \Slim\App;
@@ -486,8 +489,6 @@ else{
 }
 
 }); 
-
-
-
-
+//All routes here
+require 'C:\xampp\htdocs\Ipf_slim_api\src\routes\fetchApi.php';
 $app->run();
