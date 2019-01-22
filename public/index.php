@@ -1,12 +1,50 @@
 <?php
+/*
+This is APi was wriiten to accept user from a form
+the inputs are as follow's.
+ 1.first_name
+ 2.last_name
+ 3.company_bio
+ 4.web_site
+ 5.title
+
+the end point for perfoming POST request is as shown below
+
+URL End point: http://ipf/insertApi/add
+
+Structure used send form 
+
+Form URL Encoded
+
+Sample of Succesfull post request i.e
+
+{
+  "Success": "Data Inserted successfully!",
+  "Status": "201",
+  "CompanyDetail": {
+    "first_name": "Andrew",
+    "last_name": "Kapinga",
+    "company_bio": "Atlas Telecom ",
+    "website": "www.AtlTelco.com",
+    "title": "Network Engineer"
+  }
+}
+
+ample of an unsuccesfull post request i.e
+
+{
+
+	    	'Error':'Bad request',
+	        'Status':'400'
+	   
+}
+
+*/
+
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
 require '../vendor/autoload.php';
-//require '../src/config/db.php';
-
-
-
 
 //Get All Company Bios 
 $app = new \Slim\App;
@@ -35,8 +73,8 @@ $result = mysqli_query($conn, $sql);
 
 // Fetch all
 $data=mysqli_fetch_all($result,MYSQLI_ASSOC);
-$output=array('List of company bio'=>$data);
-echo json_encode($output);
+$output=array('List of company bios'=>$data);
+return json_encode($output);
 mysqli_close($conn);
 
  }); 
@@ -59,7 +97,7 @@ if ($conn->connect_error) {
     //echo"Connection Succesfull";
 }
 
-$sql= "SELECT company_bio FROM comapny_data WHERE web_site='www.youtube.com' ";
+$sql= "SELECT company_bio FROM comapny_data WHERE web_site='$web_site' ";
 $result = mysqli_query($conn, $sql);
 
 if (mysqli_num_rows($result) > 0) {
@@ -68,56 +106,150 @@ if (mysqli_num_rows($result) > 0) {
         $company_bio=$row["company_bio"];
         $data=array('company_bio'=>$company_bio);
 
-        echo json_encode($data);
+        return json_encode($data);
 
     }
 } else {
-    $data=array('Error' => '500');
-    echo json_encode($data);
+     $data=array(
+	    	'Error' => 'Bad request',
+	        'Status'=>'400'
+	    );
+    return json_encode($data);
 }
 
 mysqli_close($conn);
 });
 
 //GET Company titles
-$app->get('/fetchApi/Titles',function(Request $require,Response $response){
-    echo "TITLE ROUTE WORKING";
-     return $response;
+$app->get('/fetchApi/AllGetNameAndTitles',function(Request $require,Response $response){
+   // echo "TITLE ROUTE WORKING";
+	$servername = "localhost";
+	$username   = "root";
+	$password   = "";
+	$dbname     = "ipf_db";
+	// Create connection for offline version
+	$conn = new mysqli($servername, $username, $password, $dbname);
 
+	// Check connection
+	if ($conn->connect_error) {
+	    die("Connection failed: " . $conn->connect_error);
+	} else {
+	    //echo"Connection Succesfull";
+	}
+    $sql= "SELECT title,first_name,last_name FROM comapny_data ";
+	$result = mysqli_query($conn, $sql);
+	// Fetch all
+	$data=mysqli_fetch_all($result,MYSQLI_ASSOC);
 
+	return json_encode($data);
+	//echo json_encode($data2);
+	mysqli_close($conn);
 }); 
 
-//GET TITLE BY FIRST & LAST NAME
-$app->get('/fetchApi/TitlesByName/first-name/{FirstName}/last-name/{LastName}',function(Request $require,Response $response){
+//Get TITLE BY FIRST & LAST NAME
+$app->get('/fetchApi/GetNameAndTitlesByCompnayBio/{company_bio}',function(Request $require,Response $response){
 
-$FirstName=$require->getAttribute('FirstName');
-//$MiddleName=$require->getAttribute('MiddleName');
-$LastName=$require->getAttribute('LastName');
+	$company_bio=$require->getAttribute('company_bio');
+	$servername = "localhost";
+	$username   = "root";
+	$password   = "";
+	$dbname     = "ipf_db";
+	// Create connection for offline version
+	$conn = new mysqli($servername, $username, $password, $dbname);
 
-echo "TITLE ROUTE BY FULL NAME WRKING"."<br>";
-echo "fetch title by name";
-echo "full name ".$FirstName." ".$LastName;
+	$sql    = "SELECT title,first_name,last_name FROM comapny_data WHERE company_bio='$company_bio'";
+    $result = mysqli_query($conn, $sql);
+	   	if (mysqli_num_rows($result) > 0) {
+	    // output data of each row
+	    while($row = mysqli_fetch_assoc($result)) {
+	        $title=$row["title"];
+	        $first_name=$row["first_name"];
+	        $last_name=$row["last_name"];
 
- return $response;
+	        $fullName=$first_name." ".$last_name;
+	        $data=array(
+	        	        'title'=>$title,
+	        	        'first_name'=>$first_name,
+	        	        'last_name'=>$last_name
+	                   );
+
+	        return json_encode($data);
+
+	    }
+	} else {
+	    $data=array(
+	    	'Error' => 'Bad request',
+	        'Status'=>'400'
+	    );
+	    return json_encode($data);
+	}
+
+	mysqli_close($conn); 
 
 }); 
 
 //GET ALL ALL EMAIL
-$app->get('/fetchApi/Emails',function(Request $require,Response $response){
-    echo "Emails ROUTE WORKING";
-     return $response;
+$app->get('/fetchApi/web_sites',function(Request $require,Response $response){
+	$servername = "localhost";
+	$username   = "root";
+	$password   = "";
+	$dbname     = "ipf_db";
+	// Create connection for offline version
+	$conn = new mysqli($servername, $username, $password, $dbname);
 
+	// Check connection
+	if ($conn->connect_error) {
+	    die("Connection failed: " . $conn->connect_error);
+	} else {
+	    //echo"Connection Succesfull";
+	}
+
+	$sql= "SELECT web_site FROM comapny_data ";
+	$result = mysqli_query($conn, $sql);
+
+
+	// Fetch all
+	$data=mysqli_fetch_all($result,MYSQLI_ASSOC);
+	$output=array('List of websites'=>$data);
+	return json_encode($output);
+	mysqli_close($conn);
 }); 
 
-//GET EMAILS BY FIRST LAST NAME
-$app->get('/fetchApi/EmailsByName/FirstName/{FirstName}/LastName/{LastName}',function(Request $require,Response $response){
+//GET WEBSITES BY COMPANY BIO
+$app->get('/fetchApi/web_sitesBycompany_bio/{company_bio}',function(Request $require,Response $response){
+
+	$company_bio=$require->getAttribute('company_bio');
+	$servername = "localhost";
+	$username   = "root";
+	$password   = "";
+	$dbname     = "ipf_db";
+	
+	// Create connection for offline version
+	
+	$conn = new mysqli($servername, $username, $password, $dbname);
+
+	$sql    = "SELECT 	web_site FROM comapny_data WHERE company_bio='$company_bio'";
+    $result = mysqli_query($conn, $sql);
+	   	if (mysqli_num_rows($result) > 0) {
+	    // output data of each row
+	    while($row = mysqli_fetch_assoc($result)) {
+	        $web_site=$row["web_site"];
+	        $data=array('web_site'=>$web_site);
+
+	       return json_encode($data);
+
+	    }
+	} else {
+	     $data=array(
+	    	'Error' => 'Bad request',
+	        'Status'=>'400'
+	    );
+	    return json_encode($data);
+	}
+
+	mysqli_close($conn); 
 
 
-echo "Emails by full name ROUTE WORKING"."<br>";
-$FirstName=$require->getAttribute('FirstName');
-$LastName=$require->getAttribute('LastName');
-echo "full name ".$FirstName."@ ".$LastName;
- return $response;
 
 });
 
@@ -131,58 +263,74 @@ $app->post('/insertApi/add',function(Request $request,Response $response){
  //Escape mysqli string   
 $first_name=$request->getParam('first_name');
 $last_name=$request->getParam('last_name');
-$Company_bio=$request->getParam('Company_bio');
+$company_bio=$request->getParam('company_bio');
 $web_site=$request->getParam('web_site');
 $title=$request->getParam('title');
-
-
 
 
 //API POST VALIDATION
 if($first_name===""){
 
 $Message= array('Error'=>'Post Validation Data Error','Error Report'=>array('Server error Meassge'=>"first_name is empty",'Status'=>'400','Status message'=>'Bad Request'));
-echo json_encode($Message);
+return json_encode($Message);
 }
 else if($last_name===""){
 $Message= array('Error'=>'Post Validation Data Error','Error Report'=>array('Server error Meassge'=>"last_name is empty",'Status'=>'400','Status message'=>'Bad Request'));
-echo json_encode($Message);   
+return json_encode($Message);   
 
 }
-else if($Company_bio===""){
+else if($company_bio===""){
 $Message= array('Error'=>'Post Validation Data Error','Error Report'=>array('Server error Meassge'=>"last_name is empty",'Status'=>'400','Status message'=>'Bad Request'));
-echo json_encode($Message);   
+return json_encode($Message);   
 
 }
-else if($website===""){
+else if($web_site===""){
 $Message= array('Error'=>'Post Validation Data Error','Error Report'=>array('Server error Meassge'=>"phone number is empty",'Status'=>'400','Status message'=>'Bad Request'));
-echo json_encode($Message);  
+return json_encode($Message);  
 
 }
 else if($title===""){
 $Message= array('Error'=>'Post Validation Data Error','Error Report'=>array('Server error Meassge'=>"email field is empty",'Status'=>'400','Status message'=>'Bad Request'));
-echo json_encode($Message);  
+return json_encode($Message);  
 
 }
 else{
-   
-   $sql    = "INSERT INTO  comapny_data (first_name,last_name,company_bio,web_site,title) VALUES('$first_name','$last_name','$company_bio','$web_site','$title') ";
-    $result = mysqli_query($conn, $sql);
-       if ($conn->query($sql) === TRUE) {
 
-              $Message= array('Success' =>'Data entered successfully!','Status'=>'201','CompanyDetail'=>array('first_name'=>$first_name,'last_name'=>$last_name,'website'=>$web_site,'Title'=>$title));
-                 echo json_encode($Message); 
-        
-        $conn->close();
+	$servername = "localhost";
+	$username   = "root";
+	$password   = "";
+	$dbname     = "ipf_db";
+	
+	// Create connection for offline version
+	
+	$conn = new mysqli($servername, $username, $password, $dbname);
+ 
+   $sql= "INSERT INTO  comapny_data (first_name,last_name,company_bio,web_site,title) VALUES('$first_name','$last_name','$company_bio','$web_site','$title') ";
+    if (mysqli_query($conn, $sql)) {
+
+		    $Message= array(
+							 	'Success' =>'Data Inserted successfully!',
+							 	'Status'=>'201',
+							 	'CompanyDetail'=>array
+							 	('first_name'=>$first_name,
+							 	 'last_name'=>$last_name,
+							 	 'company_bio'=>$company_bio,
+							 	 'website'=>$web_site,
+							 	 'title'=>$title
+							 	)
+		    				);
+		 
+		 return json_encode($Message);
        } 
-       else {
-        $result = array(
-            'Error' => $conn->error
-        );
-        
-        echo json_encode($result);
-        $conn->close();
-    }
+       else
+        {
+	        $data=array(
+	    	'Error' => 'Bad request',
+	        'Status'=>'400'
+	    );
+	        
+	        return json_encode($data);
+    	}
    
    
 
