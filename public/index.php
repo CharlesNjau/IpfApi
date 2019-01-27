@@ -497,4 +497,5 @@ else{
 //C:\xampp\htdocs\Ipf_slim_api\src\routes
 
 require '../src/routes/fetchApi.php';
+require '../src/routes/insertApi.php';
 $app->run();

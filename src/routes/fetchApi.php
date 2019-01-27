@@ -9,4 +9,4 @@ $app->get('/fetchApi/{name}',function(Request $require,Response $response){
     $name=$require->getAttribute('name');
     echo "This is  the name from the get  fetchApi ".$name;
   });
-//$app->run();
+
