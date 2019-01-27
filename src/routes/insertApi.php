@@ -1,6 +1,31 @@
 <?php
+/* 
+This is route class was written to contain all the API post request
+
+*/
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
+
+
+
+
+$app->post('/login/add', function (Request $require,Response $response) {
+    $email=$require->getParam('email');
+    $password=$require->getParam('password');
+   
+   
+    $Message= array(
+        'Success' =>'Data Recorded successfully!',
+        'Status'=>'201',
+        'CompanyDetail'=>array
+        ('email'=>$email,
+         'password'=>$password,
+        )
+   );
+
+return json_encode($Message);
+
+});
 
 $app->post('/insertApiEmployeeDetail/add', function (Request $require,Response $response) {
     $first_name=$require->getParam('first_name');

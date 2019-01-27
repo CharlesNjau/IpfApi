@@ -194,8 +194,8 @@ Sample of an unsuccesfull post request i.e
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-require 'C:/xampp/htdocs/Ipf_slim_api/vendor/autoload.php';
-require 'C:/xampp/htdocs/Ipf_slim_api/src/config/db.php';
+require '../vendor/autoload.php';
+require '../src/config/db.php';
 $config = ['settings' => [
   'addContentLengthHeader' => false,
 ]];
