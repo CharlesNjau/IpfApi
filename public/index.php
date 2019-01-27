@@ -194,12 +194,15 @@ Sample of an unsuccesfull post request i.e
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-require 'C:\xampp\htdocs\Ipf_slim_api\vendor\autoload.php';
-require 'C:\xampp\htdocs\Ipf_slim_api\src\config\db.php';
-
+require 'C:/xampp/htdocs/Ipf_slim_api/vendor/autoload.php';
+require 'C:/xampp/htdocs/Ipf_slim_api/src/config/db.php';
+$config = ['settings' => [
+  'addContentLengthHeader' => false,
+]];
 
 //Get All Company Bios 
-$app = new \Slim\App;
+$app = new \Slim\App($config);
+
 
 
 $app->get('/fetchApi/CompanyBios',function(Request $require,Response $response){
@@ -489,6 +492,9 @@ else{
 }
 
 }); 
+
 //All routes here
-require 'C:\xampp\htdocs\Ipf_slim_api\src\routes\fetchApi.php';
+//C:\xampp\htdocs\Ipf_slim_api\src\routes
+
+require '../src/routes/fetchApi.php';
 $app->run();
