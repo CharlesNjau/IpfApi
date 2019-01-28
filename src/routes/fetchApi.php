@@ -21,13 +21,12 @@ use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
 
-//GET titles
+//Get titles by first name and last name
   $app->get('/fetchApi/TitlesByName/{first_name}/{last_name}',function(Request $require,Response $response){
 
     $first_name=$require->getAttribute('first_name');
     $last_name=$require->getAttribute('last_name');
 
-     // echo "TITLE ROUTE WORKING";
      $servername = "localhost";
      $username   = "root";
      $password   = "";
@@ -65,8 +64,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
   });
 
   $app->get('/fetchApi/CompanyBios',function(Request $require,Response $response){
-    //echo "COMPANY BIOS ROUTE WRKING";
-    //Create object*/
+    //Create database connection*/
     $servername = "localhost";
     $username   = "root";
     $password   = "";
@@ -94,9 +92,8 @@ use \Psr\Http\Message\ResponseInterface as Response;
      }); 
 
      //Get Company Bio  By Name
-$app->get('/fetchApi/CompanyBiosByWebName/{web_site}',function(Request $require,Response $response){
+    $app->get('/fetchApi/CompanyBiosByWebName/{web_site}',function(Request $require,Response $response){
     $web_site=$require->getAttribute('web_site');
-    //echo "COMPANY BIOS BY NAME ROUTE WORKING ".$website."<br>";
     $servername = "localhost";
     $username   = "root";
     $password   = "";
@@ -134,7 +131,7 @@ $app->get('/fetchApi/CompanyBiosByWebName/{web_site}',function(Request $require,
     mysqli_close($conn);
     });
     
-    //GET Company titles
+    //Get company titles
     $app->get('/fetchApi/AllGetNameAndTitles',function(Request $require,Response $response){
        // echo "TITLE ROUTE WORKING";
         $servername = "localhost";
@@ -160,7 +157,7 @@ $app->get('/fetchApi/CompanyBiosByWebName/{web_site}',function(Request $require,
         mysqli_close($conn);
     }); 
     
-    //Get TITLE BY FIRST & LAST NAME
+    //Get titles bt first and last name
     $app->get('/fetchApi/GetNameAndTitlesByCompnayBio/{company_bio}',function(Request $require,Response $response){
     
         $company_bio=$require->getAttribute('company_bio');
@@ -202,7 +199,7 @@ $app->get('/fetchApi/CompanyBiosByWebName/{web_site}',function(Request $require,
     
     }); 
     
-    //GET ALL ALL EMAIL
+    //Get all website
     $app->get('/fetchApi/web_sites',function(Request $require,Response $response){
         $servername = "localhost";
         $username   = "root";
@@ -229,7 +226,7 @@ $app->get('/fetchApi/CompanyBiosByWebName/{web_site}',function(Request $require,
         mysqli_close($conn);
     }); 
     
-    //GET WEBSITES BY COMPANY BIO
+    //Get web site by company bio
     $app->get('/fetchApi/web_sitesBycompany_bio/{company_bio}',function(Request $require,Response $response){
     
         $company_bio=$require->getAttribute('company_bio');

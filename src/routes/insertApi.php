@@ -9,7 +9,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 
 
-
+//Add new empoloyee
 $app->post('/login/add', function (Request $require,Response $response) {
     $email=$require->getParam('email');
     $first_name=$require->getParam('first_name');
@@ -81,6 +81,7 @@ $app->post('/login/add', function (Request $require,Response $response) {
 
 });
 
+//Insert new employee data
 $app->post('/insertApiEmployeeDetail/add', function (Request $require,Response $response) {
     $first_name=$require->getParam('first_name');
     $middle_name=$require->getParam('middle_name');
@@ -106,7 +107,7 @@ return json_encode($Message);
 
 });
 
-//INSERt CUSTOMER DETAIL
+//Insert customer detail 
 $app->post('/insertApi/add',function(Request $request,Response $response){
 	//echo "Emails by full name ROUTE WORKING"."<br>";
  //Escape mysqli string   
