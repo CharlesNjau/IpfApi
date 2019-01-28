@@ -206,14 +206,6 @@ $app = new \Slim\App($config);
 
 
 
-
-
-
-//Insert
-
-
-
-
 //All routes here
 //C:\xampp\htdocs\Ipf_slim_api\src\routes
 

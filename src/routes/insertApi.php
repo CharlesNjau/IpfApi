@@ -9,10 +9,14 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 
 
+
 $app->post('/login/add', function (Request $require,Response $response) {
     $email=$require->getParam('email');
-    $password=$require->getParam('password');
-   
+    $middle_name=$require->getParam('password');
+    $last_name=$require->getParam('last_name');
+    $income=$require->getParam('income');
+    $department=$require->getParam('department');
+    $position=$require->getParam('position');
    
     $Message= array(
         'Success' =>'Data Recorded successfully!',

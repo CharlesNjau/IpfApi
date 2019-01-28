@@ -20,7 +20,8 @@ use \Psr\Http\Message\ResponseInterface as Response;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-//GET titles By Name
+
+//GET titles
   $app->get('/fetchApi/TitlesByName/{first_name}/{last_name}',function(Request $require,Response $response){
 
     $first_name=$require->getAttribute('first_name');
