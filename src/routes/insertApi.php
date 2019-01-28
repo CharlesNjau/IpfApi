@@ -12,22 +12,72 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 $app->post('/login/add', function (Request $require,Response $response) {
     $email=$require->getParam('email');
-    $middle_name=$require->getParam('password');
+    $first_name=$require->getParam('first_name');
+    $middle_name=$require->getParam('middle_name');
     $last_name=$require->getParam('last_name');
     $income=$require->getParam('income');
     $department=$require->getParam('department');
     $position=$require->getParam('position');
-   
-    $Message= array(
-        'Success' =>'Data Recorded successfully!',
-        'Status'=>'201',
-        'CompanyDetail'=>array
-        ('email'=>$email,
-         'password'=>$password,
-        )
-   );
 
-return json_encode($Message);
+    if(ctype_alpha($first_name)!=true || $first_name===" "){//first_name
+        $valdation_error=array('status'=>'400','first name'=>'Not a valid name text or empty');
+
+        echo json_encode($valdation_error);
+    }
+    else if(ctype_alpha($middle_name)!=true || $middle_name===" "){
+        $valdation_error=array('status'=>'400','middle name'=>'Not a valid name text or empty');
+
+        echo json_encode($valdation_error);
+
+    }
+    else if(ctype_alpha($last_name)!=true || $last_name===" "){
+        $valdation_error=array('status'=>'400','last name'=>'Not a valid name text or empty');
+
+        echo json_encode($valdation_error);
+        
+    }
+    else if(ctype_digit($income)!=true || $income===" "){
+        $valdation_error=array('status'=>'400','income'=>'Not a valid name integer or empty');
+
+        echo json_encode($valdation_error);
+        
+    }
+    else if(ctype_alpha($department)!=true || $department===" "){
+        $valdation_error=array('status'=>'400','deprtment'=>'Not a valid text or empty');
+
+        echo json_encode($valdation_error);
+    }
+    else if(ctype_alpha($position)!=true || $position===" "){
+        $valdation_error=array('status'=>'400','position'=>'Not a valid text or empty');
+        echo json_encode($valdation_error); 
+        
+    }
+    else if(!filter_var($email, FILTER_VALIDATE_EMAIL)|| $email===" "){
+        $valdation_error=array('status'=>'400','email'=>'Not a valid text or empty');
+        echo json_encode($valdation_error); 
+        
+    }
+    else{
+        $Message= array(
+            'Success' =>'Data Recorded successfully!',
+            'Status'=>'201',
+            'CompanyDetail'=>array
+            ('email'=>$email,
+             'first_name'=>$first_name,
+             'middle_name'=>$middle_name,
+             'last_name'=>$last_name,
+             'income'=>$income,
+             'department'=>$department,
+             'position'=>$position
+
+            )
+       );
+    
+    return json_encode($Message);
+    }
+
+   
+    
 
 });
 
@@ -67,31 +117,35 @@ $web_site=$request->getParam('web_site');
 $title=$request->getParam('title');
 
 
+
 //API POST VALIDATION
-if($first_name===""){
+if(ctype_alpha($first_name)!=true || $first_name===" "){//first_name
+    $valdation_error=array('status'=>'400','first name'=>'Not a valid name text or empty');
 
-$Message= array('Error'=>'Post Validation Data Error','Error Report'=>array('Server error Meassge'=>"first_name is empty",'Status'=>'400','Status message'=>'Bad Request'));
-return json_encode($Message);
+    echo json_encode($valdation_error);
 }
-else if($last_name===""){
-$Message= array('Error'=>'Post Validation Data Error','Error Report'=>array('Server error Meassge'=>"last_name is empty",'Status'=>'400','Status message'=>'Bad Request'));
-return json_encode($Message);   
+else if(ctype_alpha($last_name)!=true || $last_name===" "){
+    $valdation_error=array('status'=>'400','last name'=>'Not a valid name text or empty');
 
+    echo json_encode($valdation_error);
+    
 }
-else if($company_bio===""){
-$Message= array('Error'=>'Post Validation Data Error','Error Report'=>array('Server error Meassge'=>"last_name is empty",'Status'=>'400','Status message'=>'Bad Request'));
-return json_encode($Message);   
+else if(ctype_alpha($company_bio)!=true || $company_bio===" "){
+    $valdation_error=array('status'=>'400','middle name'=>'Not a valid name text or empty or has an extra space');
 
-}
-else if($web_site===""){
-$Message= array('Error'=>'Post Validation Data Error','Error Report'=>array('Server error Meassge'=>"phone number is empty",'Status'=>'400','Status message'=>'Bad Request'));
-return json_encode($Message);  
+    echo json_encode($valdation_error);
 
 }
-else if($title===""){
-$Message= array('Error'=>'Post Validation Data Error','Error Report'=>array('Server error Meassge'=>"email field is empty",'Status'=>'400','Status message'=>'Bad Request'));
-return json_encode($Message);  
+else if(ctype_alpha($title)!=true || $title===" "){
+    $valdation_error=array('status'=>'400','title name'=>'Not a valid title text or empty');
 
+    echo json_encode($valdation_error);
+
+}
+else if(!filter_var($web_site, FILTER_VALIDATE_DOMAIN)|| $web_site===" "){
+    $valdation_error=array('status'=>'400','email'=>'Not a valid text or empty');
+    echo json_encode($valdation_error); 
+    
 }
 else{
 
